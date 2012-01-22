@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xml:lang="ru">
+  <metal:block use-macro="layout.macros['master']">
+    <metal:block fill-slot="main">
+      <form method="POST" tal:attributes="action python:request.path_url">
+	<input type="hidden" name="camefrom" value="${request.params.get('camefrom')}" />
+	<table style="width:400px;">
+	  <tr>
+	    <td colspan="2"><input type="text" name="login" class="bold" style="width:100%;" value="Enter your email address" onblur="if(this.value=='')this.value='Enter your email address';" onfocus="if(this.value='Enter your email address')this.value='';" /></td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><input type="text" name="password" class="bold" style="width:100%;" value="Enter password" onblur="if(this.value==''){this.value='Enter password'; this.type='text';}" onfocus="if(this.value='Enter password'){this.value=''; this.type='password';}" /></td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <input type="submit" name="submit" value="Log in" class="first" />
+	    </td>
+	    <td class="textalign-right">
+	      <b class="large"><a href="/signup">Sign up</a></b>
+	    </td>
+	  </tr>
+	</table>
+      </form>
+    </metal:block>
+  </metal:block>
+</html>

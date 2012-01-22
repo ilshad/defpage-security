@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xml:lang="ru">
+  <metal:block define-macro="master">
+    <head>
+      <title>Defpage</title>
+      <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+      <meta name="keywords" content="" />
+      <meta name="description" content="connecting clouds" />
+      <link rel="shortcut icon" href="${static_url}/images/favicon.ico" />
+      <link rel="stylesheet" href="${static_url}/css/screen.css" type="text/css" media="screen, projection" />
+      <link rel="stylesheet" href="${static_url}/css/print.css" type="text/css" media="print" />
+      <!--[if lt IE 8]>
+	  <link rel="stylesheet" href="${static_url}/css/ie.css" type="text/css" media="screen, projection">
+      <![endif]-->
+    </head>
+    <body>
+      <div tal:attributes="class string: container ${request.GET.get('x') and 'showgrid'}">
+	<div id="header" class="span-800">
+	  <div class="span-200">
+	    <a href="${base_site_url}" id="logo"><span class="logo1">def</span><span class="logo2">page</span></a>
+	  </div>
+	  <div id="topbar" class="span-600 last textalign-right"></div>
+	</div>
+	<div id="cleartop"></div>
+	<div class="span-200 first"></div>
+	<div class="span-600 last" id="main">
+	  <metal:block define-slot="messages">
+	    <tal:block repeat="item request.session.pop_flash()">
+	      <div class="notice" tal:content="structure item" />
+	    </tal:block>
+	  </metal:block>
+	  <metal:block define-slot="main"></metal:block>
+	</div>
+	<div class="span-800" id="footer">
+	  <div class="span-400" id="addinfo">
+	    <a href="/about">About</a>
+	    <a href="/help">Help</a>
+	  </div>
+	  <div class="span-400 last textalign-right" id="copyrights">
+	    <a href="/">defpage &copy; 2011</a>
+	  </div>
+	</div>
+      </div>
+    </body>
+  </metal:block>
+</html>
