@@ -56,7 +56,7 @@ def signup(req):
         message_body = signup_message % (u"http://%s/signup_confirm?&email=%s&code=%s" % (req.host, email, code), password, email)
         sendmail(recipients=[email], subject=u"Registration on defpage.com", body=message_body)
         req.session.flash(u"We've sent you a confirmation code! Please check your email.")
-        return render_to_response("defpage.auth:templates/empty.pt", {}, request=req) 
+        return render_to_response("defpage.security:templates/empty.pt", {}, request=req) 
     return {}
 
 @anonym_only
@@ -84,7 +84,7 @@ def login(req):
         dbs = DBSession()
         user = dbs.query(User).filter(User.email==login).first()
         if user and user.validate_password(password):
-            next_url = req.POST.get("camefrom") or system_params.site_url
+            next_url = req.POST.get("camefrom") or system_params.base_url
             headers = remember(req, str(user.user_id), email=login)
             return HTTPFound(location=next_url, headers=headers)
         else:
@@ -92,7 +92,7 @@ def login(req):
     return {}
 
 def logout(req):
-    return HTTPFound(location= system_params.site_url, headers=forget(req))
+    return HTTPFound(location= system_params.base_url, headers=forget(req))
 
 def sessions(req):
     k = req.matchdict['session_id']

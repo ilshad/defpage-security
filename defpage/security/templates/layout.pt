@@ -21,7 +21,7 @@
       <div tal:attributes="class string: container ${request.GET.get('x') and 'showgrid'}">
 	<div id="header" class="span-800">
 	  <div class="span-200">
-	    <a href="${base_site_url}" id="logo"><span class="logo1">def</span><span class="logo2">page</span></a>
+	    <a href="${base_url}" id="logo"><span class="logo1">def</span><span class="logo2">page</span></a>
 	  </div>
 	  <div id="topbar" class="span-600 last textalign-right"></div>
 	</div>

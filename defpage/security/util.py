@@ -1,7 +1,6 @@
 import os
 import re
 import random
-import string
 from hashlib import sha1
 
 def make_hash(password):
@@ -22,13 +21,6 @@ def check_hash(password, hashed):
     h = sha1()
     h.update(password + hashed[:40])
     return hashed[40:] == h.hexdigest()
-
-def random_string(length):
-    chars = []
-    while length:
-        chars.extend(random.sample(string.letters+string.digits, 1))
-        length -= 1
-    return "".join(chars)
 
 def validate_email(email):
     if len(email) > 7:

@@ -9,9 +9,9 @@ from sqlalchemy import Unicode
 from sqlalchemy import String
 from sqlalchemy import DateTime
 from zope.sqlalchemy import ZopeTransactionExtension
+from defpage.lib.util import random_string
 from defpage.security.util import make_hash
 from defpage.security.util import check_hash
-from defpage.security.util import random_string
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 

@@ -1,4 +1,4 @@
-from defpage.security.util import random_string
+from defpage.lib.util import random_string
 
 class AuthenticatedSessions:
 
