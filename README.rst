@@ -21,6 +21,13 @@ Create virtual environment and deploy server within it::
   $ git clone git@spacta.com:defpage/security.git
   $ cd defpage_security
   $ virtualenv --no-site-packages --distribute .
+
+Install shared python library for defpage (take it here: git@spacta.com:defpage/pylib.git)::
+
+  $ bin/pip install -e [ path_to_pylib ]
+
+Install site::
+
   $ bin/pip install -e .
 
 Run tests::
