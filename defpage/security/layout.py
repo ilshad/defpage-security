@@ -5,3 +5,4 @@ def renderer_add_globals(e):
     e["layout"] = get_renderer("defpage.security:templates/layout.pt").implementation()
     e["base_url"] = system_params.base_url
     e["static_url"] = system_params.static_url
+    e["help_url"] = system_params.help_url

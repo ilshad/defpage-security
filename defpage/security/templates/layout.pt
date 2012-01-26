@@ -37,8 +37,8 @@
 	</div>
 	<div class="span-800" id="footer">
 	  <div class="span-400" id="addinfo">
-	    <a href="/about">About</a>
-	    <a href="/help">Help</a>
+	    <a href="${help_url}/about">About</a>
+	    <a href="${help_url}">Help</a>
 	  </div>
 	  <div class="span-400 last textalign-right" id="copyrights">
 	    <a href="/">defpage &copy; 2011</a>
