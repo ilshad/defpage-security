@@ -16,4 +16,4 @@ bin/
 include/
 lib/
 man/
-local/
+local
