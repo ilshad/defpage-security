@@ -6,7 +6,17 @@
       xml:lang="ru">
   <metal:block use-macro="layout.macros['master']">
     <metal:block fill-slot="main">
-      delete account
-      </metal:block>
+      <form class="unified" method="POST" tal:attributes="action python:request.path_url">
+	<div class="form_label" style="color:red">Delete your account permanently</div>
+	<div class="row">
+	  <label for="confirm" style="display:inline; vertical-align:top;">Confirm delete your account</label>
+	  <input type="checkbox" name="confirm" style="vertical-align:top;">
+	</div>
+	<div class="row">
+	  <input type="submit" name="submit" value="Delete my account!" class="first" style="margin-top:5px;" />
+	  <a href="/users/${request.matchdict['name']}" class="last">Cancel</a>
+	</div>
+      </form>
+    </metal:block>
   </metal:block>
 </html>

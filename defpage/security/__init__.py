@@ -71,7 +71,6 @@ def main(global_config, **settings):
     config.add_route("account_delete", "/users/{name}/delete",
                      custom_predicates=(is_int,))
     config.add_view("defpage.security.views.account_delete",
-                    route_name="account_delete",
-                    renderer="defpage.security:templates/account_delete.pt")
+                    route_name="account_delete")
 
     return config.make_wsgi_app()

@@ -17,6 +17,7 @@ from defpage.security.config import system_params
 from defpage.security.mail import signup_message
 from defpage.security.mail import sendmail
 from defpage.security.session import authenticated_sessions
+from defpage.security import meta
 
 sessions_logger = logging.getLogger("defpage_sessions")
 
@@ -107,7 +108,7 @@ def login(req):
     return {}
 
 def logout(req):
-    return HTTPFound(location= system_params.base_url, headers=forget(req))
+    return HTTPFound(location=system_params.base_url, headers=forget(req))
 
 def sessions(req):
     k = req.matchdict['session_id']
@@ -128,6 +129,23 @@ def account_overview(req):
 @authenticated
 def account_delete(req):
     userid = req.matchdict["name"]
-    if userid != int(authenticated_userid(req)):
+    if userid != authenticated_userid(req):
         raise HTTPUnauthorized
-    return {}
+    collections = meta.search_collections(userid)
+    reasons = []
+    for c in collections:
+        if c["role"] == "owner":
+            reasons.append(u"You are owner of collection <b>'" + c["title"] +
+                           u"'</b>. Delete this collection or assign owner role to other user")
+    if len(reasons) > 0:
+        return render_to_response("defpage.security:templates/account_undelete.pt",
+                                  {"reasons":reasons},
+                                  request=req)
+    if req.POST.get("submit"):
+        if req.POST.get("confirm"):
+            headers = forget(req)
+            dbs = DBSession()
+            user = dbs.query(User).filter(User.user_id==int(userid)).first()
+            dbs.delete(user)
+            return HTTPFound(location=system_params.base_url, headers=headers)
+    return render_to_response("defpage.security:templates/account_delete.pt", {}, request=req)
