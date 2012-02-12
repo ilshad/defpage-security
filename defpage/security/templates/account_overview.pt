@@ -6,7 +6,9 @@
       xml:lang="ru">
   <metal:block use-macro="layout.macros['master']">
     <metal:block fill-slot="main">
-      account overview
+      <h1>Account overview</h1>
+      <h3>Email: ${user.email}</h3>
+      <a href="/users/${request.matchdict['name']}/delete">Delete account</a>
     </metal:block>
   </metal:block>
 </html>

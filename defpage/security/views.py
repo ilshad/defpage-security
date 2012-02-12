@@ -120,7 +120,10 @@ def account_overview(req):
     userid = req.matchdict["name"]
     if userid != authenticated_userid(req):
         raise HTTPUnauthorized
-    return {}
+    dbs = DBSession()
+    user = dbs.query(User).filter(User.user_id==int(userid)).first()
+
+    return {"user":user}
 
 @authenticated
 def account_delete(req):
