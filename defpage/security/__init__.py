@@ -1,8 +1,10 @@
 from pyramid.config import Configurator
 from pyramid.exceptions import NotFound
 from pyramid.exceptions import Forbidden
+from pyramid.httpexceptions import HTTPUnauthorized
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from sqlalchemy import engine_from_config
+from defpage.lib.util import is_int
 from defpage.security.sql import initialize_sql
 from defpage.security.config import system_params
 from defpage.security.policy import AuthenticationPolicy
@@ -39,8 +41,13 @@ def main(global_config, **settings):
     config.add_view("defpage.security.views.default", "",
                     renderer="defpage.security:templates/default.pt")
 
-    config.add_view("defpage.security.views.default", "",
-                    context=Forbidden)
+    config.add_view("defpage.security.views.forbidden",
+                    "", context=Forbidden,
+                    renderer="defpage.security:templates/unauthorized.pt")
+
+    config.add_view("defpage.security.views.unauthorized",
+                    "", context=HTTPUnauthorized,
+                    renderer="defpage.security:templates/unauthorized.pt")
 
     config.add_view("defpage.security.views.empty", "",
                     renderer="defpage.security:templates/notfound.pt",
@@ -55,12 +62,14 @@ def main(global_config, **settings):
                     renderer="json",
                     request_method="GET")
 
-    config.add_route("account_overview", "/users/{user_id}")
+    config.add_route("account_overview", "/users/{name}",
+                     custom_predicates=(is_int,))
     config.add_view("defpage.security.views.account_overview",
                     route_name="account_overview",
                     renderer="defpage.security:templates/account_overview.pt")
 
-    config.add_route("account_delete", "/users/{user_id}/delete")
+    config.add_route("account_delete", "/users/{name}/delete",
+                     custom_predicates=(is_int,))
     config.add_view("defpage.security.views.account_delete",
                     route_name="account_delete",
                     renderer="defpage.security:templates/account_delete.pt")

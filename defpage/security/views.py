@@ -2,11 +2,13 @@ import logging
 from sqlalchemy import and_
 from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPUnauthorized
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
 from pyramid.security import remember
 from pyramid.security import forget
 from pyramid.security import authenticated_userid
+from defpage.lib.authentication import authenticated
 from defpage.security.sql import DBSession
 from defpage.security.sql import PendingRegistration
 from defpage.security.sql import User
@@ -34,6 +36,14 @@ def default(req):
     if user_id:
         return {}
     return HTTPFound(location="/login")
+
+def forbidden(req):
+    req.response.status = 403
+    return {}
+
+def unauthorized(req):
+    req.response.status = 401
+    return {}
 
 @anonym_only
 def signup(req):
@@ -105,8 +115,16 @@ def sessions(req):
     sessions_logger.info("Get session resource: " + unicode(k) + " :: " + unicode(v))
     return v or HTTPNotFound()
 
+@authenticated
 def account_overview(req):
+    userid = req.matchdict["name"]
+    if userid != authenticated_userid(req):
+        raise HTTPUnauthorized
     return {}
 
+@authenticated
 def account_delete(req):
+    userid = req.matchdict["name"]
+    if userid != int(authenticated_userid(req)):
+        raise HTTPUnauthorized
     return {}
