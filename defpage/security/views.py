@@ -53,7 +53,10 @@ def signup(req):
         pr = PendingRegistration(email, password)
         code = pr.code
         dbs.add(pr)
-        message_body = signup_message % (u"http://%s/signup_confirm?&email=%s&code=%s" % (req.host, email, code), password, email)
+        message_body = signup_message % (u"http://%s/signup_confirm?&email=%s&code=%s" %
+                                         (req.host, email, code),
+                                         password,
+                                         email)
         sendmail(recipients=[email], subject=u"Registration on defpage.com", body=message_body)
         req.session.flash(u"We've sent you a confirmation code! Please check your email.")
         return render_to_response("defpage.security:templates/empty.pt", {}, request=req) 
@@ -66,7 +69,9 @@ def signup_confirm(req):
     if not code or not email:
         return {}
     dbs = DBSession()
-    pr = dbs.query(PendingRegistration).filter(and_(PendingRegistration.code==code, PendingRegistration.email==email)).first()
+    pr = dbs.query(PendingRegistration).filter(
+        and_(PendingRegistration.code==code, PendingRegistration.email==email)
+        ).first()
     if not pr:
         req.session.flash(u"Wrong invite code or email address")
         return {}
@@ -99,3 +104,9 @@ def sessions(req):
     v = authenticated_sessions.get(k)
     sessions_logger.info("Get session resource: " + unicode(k) + " :: " + unicode(v))
     return v or HTTPNotFound()
+
+def account_overview(req):
+    return {}
+
+def account_delete(req):
+    return {}

@@ -14,22 +14,55 @@ def main(global_config, **settings):
     session_factory = UnencryptedCookieSessionFactoryConfig("7oDVDSuJ")
     authentication_policy = AuthenticationPolicy()
     config = Configurator()
-    config.setup_registry(settings=settings, session_factory=session_factory, authentication_policy=authentication_policy)
 
-    config.add_subscriber("defpage.security.layout.renderer_add_globals", "pyramid.events.BeforeRender")
+    config.setup_registry(settings=settings,
+                          session_factory=session_factory,
+                          authentication_policy=authentication_policy)
+
+    config.add_subscriber("defpage.security.layout.renderer_add_globals",
+                          "pyramid.events.BeforeRender")
 
     config.add_static_view("static", "defpage.security:static")
 
-    config.add_route("sessions", "/sessions/{session_id}")
+    config.add_view("defpage.security.views.signup", "signup",
+                    renderer="defpage.security:templates/signup.pt")
 
-    config.add_view("defpage.security.views.signup", "signup", renderer="defpage.security:templates/signup.pt")
-    config.add_view("defpage.security.views.signup_confirm", "signup_confirm", renderer="defpage.security:templates/signup_confirm.pt")
-    config.add_view("defpage.security.views.login", "login", renderer="defpage.security:templates/login.pt")
+    config.add_view("defpage.security.views.signup_confirm", "signup_confirm",
+                    renderer="defpage.security:templates/signup_confirm.pt")
+
+    config.add_view("defpage.security.views.login", "login",
+                    renderer="defpage.security:templates/login.pt")
+
     config.add_view("defpage.security.views.logout", "logout")
-    config.add_view("defpage.security.views.default", "", renderer="defpage.security:templates/default.pt")
-    config.add_view("defpage.security.views.default", "", context=Forbidden)
-    config.add_view("defpage.security.views.empty", "", renderer="defpage.security:templates/notfound.pt", context=NotFound)
-    config.add_view("defpage.security.views.empty", "error", renderer="defpage.security:templates/error.pt")
-    config.add_view("defpage.security.views.sessions", route_name="sessions", renderer="json", request_method="GET")
+
+
+    config.add_view("defpage.security.views.default", "",
+                    renderer="defpage.security:templates/default.pt")
+
+    config.add_view("defpage.security.views.default", "",
+                    context=Forbidden)
+
+    config.add_view("defpage.security.views.empty", "",
+                    renderer="defpage.security:templates/notfound.pt",
+                    context=NotFound)
+
+    config.add_view("defpage.security.views.empty", "error",
+                    renderer="defpage.security:templates/error.pt")
+
+    config.add_route("sessions", "/sessions/{session_id}")
+    config.add_view("defpage.security.views.sessions",
+                    route_name="sessions",
+                    renderer="json",
+                    request_method="GET")
+
+    config.add_route("account_overview", "/users/{user_id}")
+    config.add_view("defpage.security.views.account_overview",
+                    route_name="account_overview",
+                    renderer="defpage.security:templates/account_overview.pt")
+
+    config.add_route("account_delete", "/users/{user_id}/delete")
+    config.add_view("defpage.security.views.account_delete",
+                    route_name="account_delete",
+                    renderer="defpage.security:templates/account_delete.pt")
 
     return config.make_wsgi_app()
