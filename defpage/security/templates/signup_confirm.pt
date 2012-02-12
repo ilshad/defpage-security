@@ -7,16 +7,21 @@
   <metal:block use-macro="layout.macros['master']">
     <metal:block fill-slot="main">
       <form method="POST" tal:attributes="action python:request.path_url">
+	<input type="hidden" name="code" tal:attributes="value python:request.params.get('code')" />
+	<input type="hidden" name="email" tal:attributes="value python:request.params.get('email')" />
 	<table>
 	  <tr>
-	    <td><label for="code">Enter invite code</label></td>
-	    <td><label for="email">Enter your email address</label></td>
-	    <td></td>
+	    <td><label for="password">Enter password</label></td>
+	    <td><input type="password" name="password" /></td>
 	  </tr>
 	  <tr>
-	    <td><input type="text" name="code" /></td>
-	    <td><input type="text" name="email" /></td>
-	    <td><input type="submit" name="submit" value="Continue" /></td>
+	    <td><label for="confirm_password">Confirm password</label></td>
+	    <td><input type="password" name="confirm_password" /></td>
+	  </tr>
+	  <tr>
+	    <td colspan="2">
+	      <input type="submit" name="submit" value="Complete registration" />
+	    </td>
 	  </tr>
 	</table>
       </form>

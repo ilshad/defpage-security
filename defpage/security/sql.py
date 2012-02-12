@@ -49,19 +49,18 @@ class PendingRegistration(Base):
 
     code = Column(String, primary_key=True)
     email = Column(Unicode)
-    password = Column(Unicode(), nullable=False)
     created = Column(DateTime)
 
-    def __init__(self, email, password):
+    def __init__(self, email):
         self.code = self._create_code()
         self.email = email
-        self.password = make_hash(password)
         self.created = datetime.utcnow()
 
     def _create_code(self):
         while 1:
             code = random_string(20)
-            exists = DBSession().query(PendingRegistration).filter(PendingRegistration.code==code).first()
+            exists = DBSession().query(PendingRegistration).filter(
+                PendingRegistration.code==code).first()
             if not exists:
                 return code
 

@@ -12,4 +12,4 @@ def sendmail(recipients, subject, body):
     if response.status != 204:
         raise ServiceCallError
 
-signup_message = u'<div style="color:#a52a2a; font-width:bold; font-size:20px;">Hello!</div>\n<p>Thank you for registering with <b>defpage.com!</b></p>\n\n<p>Verify Your Email Address Registration.\nPlease click on the confirmation link below to activate your account:\n%s</p>\n\n<p>After confirmation, use this email address and password <b><em>%s</em></b> to sign in.</p>\n\n<p>This email was sent to %s.</p>'
+signup_message = u'<div style="color:#a52a2a; font-width:bold; font-size:20px;">Hello!</div>\n<p>Thank you for registering with <b>defpage.com!</b></p>\n\n<p>Verify Your Email Address Registration.\nPlease click on the confirmation link below to activate your account:\n%s</p>\n\n<p>This email was sent to %s.</p>'

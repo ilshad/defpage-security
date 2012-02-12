@@ -32,6 +32,10 @@ def anonym_only(func):
 def empty(req):
     return {}
 
+@anonym_only
+def anonym_only_empty_view(req):
+    return {}
+
 def default(req):
     user_id = authenticated_userid(req)
     if user_id:
@@ -49,8 +53,7 @@ def unauthorized(req):
 @anonym_only
 def signup(req):
     email = req.POST.get("login")
-    password = req.POST.get("password")
-    if email and password:
+    if email:
         if not validate_email(email):
             req.session.flash(u"Invalid email address")
             return {}
@@ -61,13 +64,11 @@ def signup(req):
         old = dbs.query(PendingRegistration).filter(PendingRegistration.email==email).first()
         if old:
             dbs.delete(old)
-        pr = PendingRegistration(email, password)
+        pr = PendingRegistration(email)
         code = pr.code
         dbs.add(pr)
         message_body = signup_message % (u"http://%s/signup_confirm?&email=%s&code=%s" %
-                                         (req.host, email, code),
-                                         password,
-                                         email)
+                                         (req.host, email, code), email)
         sendmail(recipients=[email], subject=u"Registration on defpage.com", body=message_body)
         req.session.flash(u"We've sent you a confirmation code! Please check your email.")
         return render_to_response("defpage.security:templates/empty.pt", {}, request=req) 
@@ -78,19 +79,27 @@ def signup_confirm(req):
     code = req.params.get("code")
     email = req.params.get("email")
     if not code or not email:
-        return {}
+        return HTTPFound(location="/signup_code")
     dbs = DBSession()
     pr = dbs.query(PendingRegistration).filter(
-        and_(PendingRegistration.code==code, PendingRegistration.email==email)
+        and_(PendingRegistration.code==code,
+             PendingRegistration.email==email)
         ).first()
     if not pr:
         req.session.flash(u"Wrong invite code or email address")
-        return {}
-    user = User(pr.email, pr.password)
-    dbs.add(user)
-    dbs.delete(pr)
-    req.session.flash(u"Welcome! Your account is activated now.")
-    return HTTPFound(location="/login")
+        return HTTPFound(location="/signup_code")
+    password = req.POST.get("password")
+    confirm_password = req.POST.get("confirm_password")
+    if password and confirm_password:
+        if password != confirm_password:
+            req.session.flash(u"Confirm password")
+            return {}
+        user = User(pr.email, password)
+        dbs.add(user)
+        dbs.delete(pr)
+        req.session.flash(u"Welcome! Your account is activated now.")
+        return HTTPFound(location="/login")
+    return {}
 
 @anonym_only
 def login(req):

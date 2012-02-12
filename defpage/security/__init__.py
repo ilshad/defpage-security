@@ -29,6 +29,9 @@ def main(global_config, **settings):
     config.add_view("defpage.security.views.signup", "signup",
                     renderer="defpage.security:templates/signup.pt")
 
+    config.add_view("defpage.security.views.anonym_only_empty_view", "signup_code",
+                    renderer="defpage.security:templates/signup_code.pt")
+
     config.add_view("defpage.security.views.signup_confirm", "signup_confirm",
                     renderer="defpage.security:templates/signup_confirm.pt")
 
