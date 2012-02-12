@@ -27,9 +27,9 @@ class User(Base):
 
     _password = Column('password', Unicode(), nullable=False)
 
-    def __init__(self, email, password_hash):
+    def __init__(self, email, password):
         self.email = email
-        self._password = password_hash
+        self.password = password
         self.created = datetime.utcnow()
 
     def _set_password(self, password):
