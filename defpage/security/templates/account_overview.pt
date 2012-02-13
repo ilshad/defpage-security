@@ -9,7 +9,12 @@
       <fieldset>
 	<legend>Account overview</legend>
 	<h3>Email: ${user.email}</h3>
-	<a href="/users/${request.matchdict['name']}/delete">Delete account</a>
+	<table>
+	  <tr>
+	    <td><a href="${base_url}">Home</a></td>
+	    <td><a href="/users/${request.matchdict['name']}/delete">Delete account</a></td>
+	  </tr>
+	</table>
       </fieldset>
     </metal:block>
   </metal:block>
