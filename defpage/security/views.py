@@ -98,7 +98,7 @@ def signup_confirm(req):
         dbs.add(user)
         dbs.delete(pr)
         req.session.flash(u"Welcome! Your account is activated now.")
-        return HTTPFound(location="/login")
+        return HTTPFound(location=system_params.base_url)
     return {}
 
 @anonym_only
