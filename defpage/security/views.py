@@ -114,6 +114,7 @@ def login(req):
             return HTTPFound(location=next_url, headers=headers)
         else:
             req.session.flash(u"Wrong email address or password")
+            return HTTPFound(location=system_params.base_url)
     return {}
 
 def logout(req):
