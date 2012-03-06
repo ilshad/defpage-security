@@ -122,7 +122,7 @@ def logout(req):
 def sessions(req):
     k = req.matchdict['session_id']
     v = authenticated_sessions.get(k)
-    sessions_logger.info("Get session resource: " + unicode(k) + " :: " + unicode(v))
+    sessions_logger.debug("Get session resource: " + unicode(k) + " :: " + unicode(v))
     return v or HTTPNotFound()
 
 @authenticated
