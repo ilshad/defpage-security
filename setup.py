@@ -1,5 +1,4 @@
 import os
-import sys
 
 from setuptools import setup, find_packages
 
@@ -9,17 +8,16 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     'pyramid',
-    'repoze.tm2>=1.0b1', # default_commit_veto
     'sqlalchemy',
+    'transaction',
+    'pyramid_tm',
+    'pyramid_debugtoolbar',
     'zope.sqlalchemy',
-    'WebError',
+    'waitress',
     'psycopg2',
     'httplib2',
     'defpage.lib',
     ]
-
-if sys.version_info[:3] < (2,5,0):
-    requires.append('pysqlite')
 
 setup(name='defpage.security',
       version='0.1',
@@ -35,6 +33,5 @@ setup(name='defpage.security',
       entry_points = """\
       [paste.app_factory]
       main = defpage.security:main
-      """,
-      paster_plugins=['pyramid'],
+      """
       )
