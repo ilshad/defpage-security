@@ -13,14 +13,14 @@
     </head>
     <body>
       <div tal:attributes="class string: container ${request.GET.get('x') and 'showgrid'}">
-	<div id="header" class="span-800">
+	<header id="header" class="span-800">
 	  <div class="span-200">
 	    <a href="${base_url}" id="logo"><span class="logo1">def</span><span class="logo2">page</span></a>
 	  </div>
 	  <div id="topbar" class="span-600 last textalign-right"></div>
-	</div>
+	</header>
 	<div id="cleartop"></div>
-	<div class="span-200 first"></div>
+	<nav class="span-200 first"></nav>
 	<div class="span-600 last" id="main">
 	  <metal:block define-slot="messages">
 	    <tal:block repeat="item request.session.pop_flash()">
@@ -29,15 +29,15 @@
 	  </metal:block>
 	  <metal:block define-slot="main"></metal:block>
 	</div>
-	<div class="span-800" id="footer">
-	  <div class="span-400" id="addinfo">
+	<footer class="span-800">
+	  <nav class="span-400">
 	    <a href="${help_url}/about">About</a>
 	    <a href="${help_url}">Help</a>
-	  </div>
+	  </nav>
 	  <div class="span-400 last textalign-right" id="copyrights">
 	    <a href="/">defpage &copy; 2011</a>
 	  </div>
-	</div>
+	</footer>
       </div>
     </body>
   </metal:block>
