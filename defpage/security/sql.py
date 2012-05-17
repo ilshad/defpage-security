@@ -19,9 +19,9 @@ Base = declarative_base()
 
 class User(Base):
 
-    __tablename__ = "users"
+    __tablename__ = "user"
 
-    user_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     email = Column(Unicode)
     created = Column(DateTime)
 
@@ -45,7 +45,7 @@ class User(Base):
 
 class PendingRegistration(Base):
 
-    __tablename__ = "pending_registrations"
+    __tablename__ = "pending_registration"
 
     code = Column(String, primary_key=True)
     email = Column(Unicode)

@@ -110,7 +110,7 @@ def login(req):
         user = dbs.query(User).filter(User.email==login).first()
         if user and user.validate_password(password):
             next_url = req.POST.get("camefrom") or system_params.base_url
-            headers = remember(req, str(user.user_id), email=login)
+            headers = remember(req, str(user.id), email=login)
             return HTTPFound(location=next_url, headers=headers)
         else:
             req.session.flash(u"Wrong email address or password")
@@ -132,8 +132,7 @@ def account_overview(req):
     if userid != authenticated_userid(req):
         raise HTTPUnauthorized
     dbs = DBSession()
-    user = dbs.query(User).filter(User.user_id==int(userid)).first()
-
+    user = dbs.query(User).filter(User.id==int(userid)).first()
     return {"user":user}
 
 @authenticated
@@ -155,7 +154,7 @@ def account_delete(req):
         if req.POST.get("confirm"):
             headers = forget(req)
             dbs = DBSession()
-            user = dbs.query(User).filter(User.user_id==int(userid)).first()
+            user = dbs.query(User).filter(User.id==int(userid)).first()
             dbs.delete(user)
             return HTTPFound(location=system_params.base_url, headers=headers)
     return render_to_response("defpage.security:templates/account_delete.pt", {}, request=req)
