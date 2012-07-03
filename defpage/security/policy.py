@@ -16,8 +16,12 @@ class AuthenticationPolicy(object):
         headers = []
         later = datetime.datetime.utcnow() + datetime.timedelta(seconds=int(self.max_age))
         expires = later.strftime('%a, %d %b %Y %H:%M:%S GMT')
-        headers.append(('Set-Cookie', '%s="%s"; Path=/; Domain=.%s; Max-Age=%s; Expires=%s' % (self.cookie_name, value, system_params.domain_base, self.max_age, expires)))
-        headers.append(('Set-Cookie', '%s="%s"; Path=/; Max-Age=%s; Expires=%s' % (self.cookie_name, value, self.max_age, expires)))
+        headers.append(('Set-Cookie', '%s="%s"; Path=/; Domain=%s; Max-Age=%s; Expires=%s' %
+                        (self.cookie_name,
+                         value,
+                         system_params.common_cookies_domain,
+                         self.max_age,
+                         expires)))
         return headers
 
     def authenticated_userid(self, request):
