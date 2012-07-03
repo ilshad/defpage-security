@@ -13,7 +13,9 @@ def main(global_config, **settings):
     system_params.update(settings)
     engine = engine_from_config(settings, 'sqlalchemy.')
     initialize_sql(engine)
-    session_factory = UnencryptedCookieSessionFactoryConfig("7oDVDSuJ")
+    session_factory = UnencryptedCookieSessionFactoryConfig(
+        "7oDVDSuJ",
+        cookie_domain="." + system_params.domain_base)
     authentication_policy = AuthenticationPolicy()
     config = Configurator()
 
