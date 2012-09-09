@@ -67,8 +67,8 @@ def signup(req):
         pr = PendingRegistration(email)
         code = pr.code
         dbs.add(pr)
-        message_body = signup_message % (u"http://%s/signup_confirm?&email=%s&code=%s" %
-                                         (req.host, email, code), email)
+        url = u"http://%s/signup_confirm?&email=%s&code=%s" % (req.host, email, code)
+        message_body = signup_message % (url, url, email)
         sendmail(recipients=[email], subject=u"Registration on defpage.com", body=message_body)
         req.session.flash(u"We've sent you a confirmation code! Please check your email.")
         return render_to_response("defpage.security:templates/empty.pt", {}, request=req) 
