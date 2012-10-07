@@ -16,6 +16,10 @@ Create user `defpage`, database `defpage` and make him owner::
 Deploy
 ======
 
+Install system dependencies::
+
+  $ sudo apt-get install libpq-dev
+
 Create virtual environment and deploy server within it::
 
   $ git clone git@spacta.com:defpage/security.git
