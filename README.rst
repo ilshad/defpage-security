@@ -1,6 +1,6 @@
-===========================
-defpage.com security server
-===========================
+=======================
+defpage security server
+=======================
 
 Create PostgreSQL database
 -------------------------
