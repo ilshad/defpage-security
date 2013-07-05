@@ -22,11 +22,11 @@ Install system dependencies::
 
 Create virtual environment and deploy server within it::
 
-  $ git clone git@github.com:astoon/defpage-security.git
+  $ git clone git@github.com:ilshad/defpage-security.git
   $ cd defpage_security
   $ virtualenv --no-site-packages --distribute .
 
-Install shared python library for defpage (take it here: git@github.com:astoon/defpage-pylib.git)::
+Install shared python library for defpage (take it here: git@github.com:ilshad/defpage-pylib.git)::
 
   $ bin/pip install -e [ path_to_pylib ]
 
